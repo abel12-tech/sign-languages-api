@@ -6,7 +6,7 @@ exports.getAllSigns = async (req, res) => {
 
     res.status(200).json({
       status: "success",
-      dataLength:signs.length,
+      dataLength: signs.length,
       data: {
         signs,
       },
@@ -100,6 +100,52 @@ exports.deleteSign = async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({
+      status: "error",
+      message: err.message,
+    });
+  }
+};
+
+exports.approveSign = async (req, res) => {
+  try {
+    const sign = await Sign.findByIdAndUpdate(req.params.id, { status: "approved" }, { new: true });
+    if (!sign) {
+      return res.status(404).json({
+        status: "error",
+        message: "Sign not found",
+      });
+    }
+    res.status(200).json({
+      status: "success",
+      data: {
+        sign,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "error",
+      message: err.message,
+    });
+  }
+};
+
+exports.rejectSign = async (req, res) => {
+  try {
+    const sign = await Sign.findByIdAndUpdate(req.params.id, { status: "rejected" }, { new: true });
+    if (!sign) {
+      return res.status(404).json({
+        status: "error",
+        message: "Sign not found",
+      });
+    }
+    res.status(200).json({
+      status: "success",
+      data: {
+        sign,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
       status: "error",
       message: err.message,
     });
