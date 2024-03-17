@@ -6,6 +6,7 @@ const signRouter = require("./routes/signRoutes");
 const categoryRouter = require("./routes/categoryRoutes");
 const userRouter = require("./routes/userRoutes");
 
+
 app.use(morgan("dev"));
 
 app.use(express.json());
