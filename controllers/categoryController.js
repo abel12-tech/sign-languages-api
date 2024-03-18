@@ -1,4 +1,5 @@
 const Category = require("../models/categoryModel");
+const Sign = require("../models/signModel");
 
 exports.getAllCategories = async (req, res) => {
   try {
@@ -30,6 +31,36 @@ exports.getCategory = async (req, res) => {
       status: "success",
       data: {
         category,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      message: err.message,
+    });
+  }
+};
+
+exports.getSignsByCategory = async (req, res) => {
+  try {
+    const categoryId = req.params.id;
+
+    const category = await Category.findById(categoryId);
+
+    if (!category) {
+      return res.status(404).json({
+        status: "error",
+        message: "Category not found",
+      });
+    }
+
+    const signs = await Sign.find({ category: categoryId });
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        category,
+        signs,
       },
     });
   } catch (err) {
