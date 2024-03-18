@@ -8,7 +8,6 @@ const signRouter = require("./routes/signRoutes");
 const categoryRouter = require("./routes/categoryRoutes");
 const userRouter = require("./routes/userRoutes");
 
-// Swagger configuration options
 const swaggerOptions = {
   swaggerDefinition: {
     openapi: "3.0.0",
@@ -22,17 +21,15 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: "https://sign-languages-api-1.onrender.com/api/v1", // Update the URL as per your server configuration
+        url: "https://sign-languages-api-1.onrender.com",
       },
     ],
   },
-  apis: ["./routes/*.js"], // Path to the API routes
+  apis: ["./routes/*.js"],
 };
 
-// Initialize swagger-jsdoc
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
-// Middleware to serve Swagger UI
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(morgan("dev"));
