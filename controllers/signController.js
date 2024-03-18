@@ -7,9 +7,7 @@ exports.getAllSigns = async (req, res) => {
     res.status(200).json({
       status: "success",
       dataLength: signs.length,
-      data: {
-        signs,
-      },
+      data: signs,
     });
   } catch (err) {
     res.status(500).json({
@@ -30,9 +28,7 @@ exports.getSign = async (req, res) => {
     }
     res.status(200).json({
       status: "success",
-      data: {
-        sign,
-      },
+      data: sign,
     });
   } catch (err) {
     res.status(500).json({
@@ -47,9 +43,7 @@ exports.createSign = async (req, res) => {
     const sign = await Sign.create(req.body);
     res.status(201).json({
       status: "success",
-      data: {
-        sign,
-      },
+      data: sign,
     });
   } catch (err) {
     res.status(400).json({
@@ -73,9 +67,7 @@ exports.updateSign = async (req, res) => {
     }
     res.status(200).json({
       status: "success",
-      data: {
-        sign,
-      },
+      data: sign,
     });
   } catch (err) {
     res.status(400).json({
@@ -108,7 +100,11 @@ exports.deleteSign = async (req, res) => {
 
 exports.approveSign = async (req, res) => {
   try {
-    const sign = await Sign.findByIdAndUpdate(req.params.id, { status: "approved" }, { new: true });
+    const sign = await Sign.findByIdAndUpdate(
+      req.params.id,
+      { status: "approved" },
+      { new: true }
+    );
     if (!sign) {
       return res.status(404).json({
         status: "error",
@@ -117,9 +113,7 @@ exports.approveSign = async (req, res) => {
     }
     res.status(200).json({
       status: "success",
-      data: {
-        sign,
-      },
+      data: sign,
     });
   } catch (err) {
     res.status(400).json({
@@ -131,7 +125,11 @@ exports.approveSign = async (req, res) => {
 
 exports.rejectSign = async (req, res) => {
   try {
-    const sign = await Sign.findByIdAndUpdate(req.params.id, { status: "rejected" }, { new: true });
+    const sign = await Sign.findByIdAndUpdate(
+      req.params.id,
+      { status: "rejected" },
+      { new: true }
+    );
     if (!sign) {
       return res.status(404).json({
         status: "error",
@@ -140,9 +138,7 @@ exports.rejectSign = async (req, res) => {
     }
     res.status(200).json({
       status: "success",
-      data: {
-        sign,
-      },
+      data: sign,
     });
   } catch (err) {
     res.status(400).json({

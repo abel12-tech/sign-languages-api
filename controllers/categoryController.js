@@ -6,9 +6,7 @@ exports.getAllCategories = async (req, res) => {
     const categories = await Category.find();
     res.status(200).json({
       status: "success",
-      data: {
-        categories,
-      },
+      data: categories,
     });
   } catch (err) {
     res.status(500).json({
@@ -29,9 +27,7 @@ exports.getCategory = async (req, res) => {
     }
     res.status(200).json({
       status: "success",
-      data: {
-        category,
-      },
+      data: category,
     });
   } catch (err) {
     res.status(500).json({
@@ -58,10 +54,7 @@ exports.getSignsByCategory = async (req, res) => {
 
     res.status(200).json({
       status: "success",
-      data: {
-        category,
-        signs,
-      },
+      data: signs,
     });
   } catch (err) {
     res.status(500).json({
@@ -76,9 +69,7 @@ exports.createCategory = async (req, res) => {
     const category = await Category.create(req.body);
     res.status(201).json({
       status: "success",
-      data: {
-        category,
-      },
+      data: category,
     });
   } catch (err) {
     res.status(400).json({
@@ -102,9 +93,7 @@ exports.updateCategory = async (req, res) => {
     }
     res.status(200).json({
       status: "success",
-      data: {
-        category,
-      },
+      data: category,
     });
   } catch (err) {
     res.status(400).json({
