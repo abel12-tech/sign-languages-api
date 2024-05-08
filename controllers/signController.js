@@ -1,4 +1,36 @@
 const Sign = require("../models/signModel");
+const Category = require("../models/categoryModel");
+
+exports.getSignsStats = async (req, res) => {
+  try {
+    const totalApprovedSigns = await Sign.countDocuments({
+      status: "approved",
+    });
+
+    const totalContributedSigns = await Sign.countDocuments({
+      addedBy: { $exists: true },
+    });
+
+    const totalSigns = await Sign.countDocuments();
+
+    const totalCategories = await Category.countDocuments();
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        totalApprovedSigns,
+        totalContributedSigns,
+        totalSigns,
+        totalCategories,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      message: err.message,
+    });
+  }
+};
 
 exports.getAllSigns = async (req, res) => {
   try {

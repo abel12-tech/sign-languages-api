@@ -1,6 +1,8 @@
 const Category = require("../models/categoryModel");
 const Sign = require("../models/signModel");
 
+
+//? Getting all categories.
 exports.getAllCategories = async (req, res) => {
   try {
     const categories = await Category.find();
@@ -16,6 +18,7 @@ exports.getAllCategories = async (req, res) => {
   }
 };
 
+// Getting single Category
 exports.getCategory = async (req, res) => {
   try {
     const category = await Category.findById(req.params.id);
@@ -37,6 +40,7 @@ exports.getCategory = async (req, res) => {
   }
 };
 
+// getting signs by category.
 exports.getSignsByCategory = async (req, res) => {
   try {
     const categoryId = req.params.id;

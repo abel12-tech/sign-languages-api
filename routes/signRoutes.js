@@ -5,6 +5,34 @@ const router = express.Router();
 
 /**
  * @swagger
+ * /api/v1/signs/stats:
+ *   get:
+ *     summary: Get statistics about signs
+ *     responses:
+ *       '200':
+ *         description: Statistics about signs
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 totalApprovedSigns:
+ *                   type: integer
+ *                   description: Total number of approved signs
+ *                 totalContributedSigns:
+ *                   type: integer
+ *                   description: Total number of contributed signs
+ *                 totalSigns:
+ *                   type: integer
+ *                   description: Total number of signs
+ *                 totalCategories:
+ *                   type: integer
+ *                   description: Total number of categories
+ */
+router.get("/stats", signController.getSignsStats);
+
+/**
+ * @swagger
  * components:
  *   schemas:
  *     Sign:
