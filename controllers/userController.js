@@ -133,7 +133,7 @@ exports.loginUser = async (req, res) => {
       });
     }
 
-    const isPasswordCorrect = await user.isValidPassword(password);
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
       return res.status(401).json({
         status: "error",
