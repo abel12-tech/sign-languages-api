@@ -57,7 +57,7 @@ router.post("/register", userController.registerUser);
  *         description: Invalid credentials
  */
 
-router.post("/login", authenticateToken, userController.loginUser);
+router.post("/login", userController.loginUser);
 
 /**
  * @swagger
