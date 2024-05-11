@@ -1,3 +1,4 @@
+const User = require("../models/userModel");
 const Sign = require("../models/signModel");
 const Category = require("../models/categoryModel");
 
@@ -23,6 +24,51 @@ exports.getSignsStats = async (req, res) => {
         totalSigns,
         totalCategories,
       },
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      message: err.message,
+    });
+  }
+};
+
+exports.getSignAddedByUser = async (req, res) => {
+  try {
+    const nonAdminUsers = await User.find({ isAdmin
+      : false }); 
+    const nonAdminUserIds = nonAdminUsers.map((user) => user._id);
+    const signs = await Sign.find({
+      addedBy: { $in: nonAdminUserIds },
+    }).populate("addedBy");
+
+    res.status(200).json({
+      status: "success",
+      dataLength: signs.length,
+      data: signs,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      message: err.message,
+    });
+  }
+};
+
+exports.getSignsAddedByAdmin = async (req, res) => {
+  try {
+    
+    const adminUsers = await User.find({ isAdmin: true });
+    const adminUserIds = adminUsers.map((user) => user._id);
+    
+    const signs = await Sign.find({
+      addedBy: { $in: adminUserIds },
+    }).populate("addedBy");
+
+    res.status(200).json({
+      status: "success",
+      dataLength: signs.length,
+      data: signs,
     });
   } catch (err) {
     res.status(500).json({
@@ -174,22 +220,6 @@ exports.rejectSign = async (req, res) => {
     });
   } catch (err) {
     res.status(400).json({
-      status: "error",
-      message: err.message,
-    });
-  }
-};
-
-exports.getSignAddedByUser = async (req, res) => {
-  try {
-    const signs = await Sign.find({ addedBy: { $ne: "admin" } });
-    res.status(200).json({
-      status: "success",
-      dataLength: signs.length,
-      data: signs,
-    });
-  } catch (err) {
-    res.status(500).json({
       status: "error",
       message: err.message,
     });

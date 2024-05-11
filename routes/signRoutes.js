@@ -81,6 +81,26 @@ router.get("/added-by-user", signController.getSignAddedByUser);
 
 /**
  * @swagger
+ * /api/v1/signs/added-by-admin:
+ *   get:
+ *     summary: Retrieve signs added by admin users
+ *     responses:
+ *       '200':
+ *         description: A list of signs added by admin users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Sign'
+ */
+
+
+
+router.get("/added-by-admin", signController.getSignsAddedByAdmin);
+
+/**
+ * @swagger
  * /api/v1/signs:
  *   get:
  *     summary: Retrieve all signs
