@@ -33,37 +33,6 @@ router.get("/stats", signController.getSignsStats);
 
 /**
  * @swagger
- * components:
- *   schemas:
- *     Sign:
- *       type: object
- *       properties:
- *         _id:
- *           type: string
- *           description: The auto-generated ID of the sign.
- *         name:
- *           type: string
- *           description: The name of the sign.
- *         category:
- *           type: string
- *           description: The category ID of the sign.
- *         meaning:
- *           type: string
- *           description: The meaning of the sign.
- *         image:
- *           type: string
- *           description: URL of the image associated with the sign.
- *         addedBy:
- *           type: string
- *           description: The user ID who added the sign.
- *         status:
- *           type: string
- *           enum: [pending, approved, rejected]
- *           description: The status of the sign.
- */
-
-/**
- * @swagger
  * /api/v1/signs:
  *   get:
  *     summary: Get signs added by non-admin users
@@ -94,8 +63,6 @@ router.get("/added-by-user", signController.getSignAddedByUser);
  *               items:
  *                 $ref: '#/components/schemas/Sign'
  */
-
-
 
 router.get("/added-by-admin", signController.getSignsAddedByAdmin);
 
