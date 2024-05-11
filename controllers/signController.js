@@ -35,8 +35,7 @@ exports.getSignsStats = async (req, res) => {
 
 exports.getSignAddedByUser = async (req, res) => {
   try {
-    const nonAdminUsers = await User.find({ isAdmin
-      : false }); 
+    const nonAdminUsers = await User.find({ isAdmin: false });
     const nonAdminUserIds = nonAdminUsers.map((user) => user._id);
     const signs = await Sign.find({
       addedBy: { $in: nonAdminUserIds },
@@ -57,10 +56,9 @@ exports.getSignAddedByUser = async (req, res) => {
 
 exports.getSignsAddedByAdmin = async (req, res) => {
   try {
-    
     const adminUsers = await User.find({ isAdmin: true });
     const adminUserIds = adminUsers.map((user) => user._id);
-    
+
     const signs = await Sign.find({
       addedBy: { $in: adminUserIds },
     }).populate("addedBy");
@@ -118,7 +116,25 @@ exports.getSign = async (req, res) => {
 
 exports.createSign = async (req, res) => {
   try {
-    const sign = await Sign.create(req.body);
+    let signData = req.body;
+
+    const user = await User.findById(signData.addedBy);
+    if (!signData.addedBy) {
+      return res.status(400).json({
+        status: "error",
+        message: "Field 'addedBy' is required",
+      });
+    }
+    if (!user) {
+      return res.status(404).json({
+        status: "error",
+        message: "User not found",
+      });
+    }
+    if (user.isAdmin) {
+      signData.status = "approved";
+    }
+    const sign = await Sign.create(signData);
     res.status(201).json({
       status: "success",
       data: sign,
