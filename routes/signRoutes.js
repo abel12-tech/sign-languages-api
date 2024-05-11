@@ -1,5 +1,7 @@
 const express = require("express");
 const signController = require("../controllers/signController");
+const { authenticateToken } = require("../middleware/authMiddleware");
+
 
 const router = express.Router();
 
@@ -29,7 +31,7 @@ const router = express.Router();
  *                   type: integer
  *                   description: Total number of categories
  */
-router.get("/stats", signController.getSignsStats);
+router.get("/stats",  authenticateToken, signController.getSignsStats);
 
 /**
  * @swagger
@@ -46,7 +48,7 @@ router.get("/stats", signController.getSignsStats);
  *               items:
  *                 $ref: '#/components/schemas/Sign'
  */
-router.get("/added-by-user", signController.getSignAddedByUser);
+router.get("/added-by-user", authenticateToken, signController.getSignAddedByUser);
 
 /**
  * @swagger
@@ -64,7 +66,7 @@ router.get("/added-by-user", signController.getSignAddedByUser);
  *                 $ref: '#/components/schemas/Sign'
  */
 
-router.get("/added-by-admin", signController.getSignsAddedByAdmin);
+router.get("/added-by-admin", authenticateToken, signController.getSignsAddedByAdmin);
 
 /**
  * @swagger
@@ -81,7 +83,7 @@ router.get("/added-by-admin", signController.getSignsAddedByAdmin);
  *               items:
  *                 $ref: '#/components/schemas/Sign'
  */
-router.get("/", signController.getAllSigns);
+router.get("/", authenticateToken, signController.getAllSigns);
 
 /**
  * @swagger
@@ -102,7 +104,7 @@ router.get("/", signController.getAllSigns);
  *             schema:
  *               $ref: '#/components/schemas/Sign'
  */
-router.post("/", signController.createSign);
+router.post("/", authenticateToken, signController.createSign);
 
 /**
  * @swagger
@@ -124,7 +126,7 @@ router.post("/", signController.createSign);
  *             schema:
  *               $ref: '#/components/schemas/Sign'
  */
-router.get("/:id", signController.getSign);
+router.get("/:id",  authenticateToken, signController.getSign);
 
 /**
  * @swagger
@@ -152,7 +154,7 @@ router.get("/:id", signController.getSign);
  *             schema:
  *               $ref: '#/components/schemas/Sign'
  */
-router.patch("/:id", signController.updateSign);
+router.patch("/:id", authenticateToken, signController.updateSign);
 
 /**
  * @swagger
@@ -170,7 +172,7 @@ router.patch("/:id", signController.updateSign);
  *       '204':
  *         description: Successfully deleted sign
  */
-router.delete("/:id", signController.deleteSign);
+router.delete("/:id",  authenticateToken, signController.deleteSign);
 
 /**
  * @swagger
@@ -188,7 +190,7 @@ router.delete("/:id", signController.deleteSign);
  *       '200':
  *         description: Sign approved successfully
  */
-router.patch("/:id/approve", signController.approveSign);
+router.patch("/:id/approve", authenticateToken, signController.approveSign);
 
 /**
  * @swagger
@@ -206,6 +208,6 @@ router.patch("/:id/approve", signController.approveSign);
  *       '200':
  *         description: Sign rejected successfully
  */
-router.patch("/:id/reject", signController.rejectSign);
+router.patch("/:id/reject",  authenticateToken, signController.rejectSign);
 
 module.exports = router;

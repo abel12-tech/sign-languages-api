@@ -1,14 +1,9 @@
 const express = require("express");
 const userController = require("../controllers/userController");
+const { authenticateToken } = require("../middleware/authMiddleware");
+
 
 const router = express.Router();
-
-/**
- * @swagger
- * tags:
- *   name: Users
- *   description: API endpoints for managing users
- */
 
 /**
  * @swagger
@@ -36,7 +31,7 @@ const router = express.Router();
  *         description: Successfully registered user
  */
 
-router.post("/register", userController.registerUser);
+router.post("/register", authenticateToken, userController.registerUser);
 
 /**
  * @swagger
@@ -62,7 +57,7 @@ router.post("/register", userController.registerUser);
  *         description: Invalid credentials
  */
 
-router.post("/login", userController.loginUser);
+router.post("/login", authenticateToken, userController.loginUser);
 
 /**
  * @swagger
@@ -131,9 +126,9 @@ router.post("/login", userController.loginUser);
 
 router
   .route("/:id")
-  .get(userController.getUser)
-  .patch(userController.updateUser)
-  .delete(userController.deleteUser);
+  .get(authenticateToken,userController.getUser)
+  .patch(authenticateToken,userController.updateUser)
+  .delete(authenticateToken,userController.deleteUser);
 
 /**
  * @swagger
@@ -146,6 +141,7 @@ router
  *         description: A list of users
  */
 
-router.get("/", userController.getAllUsers);
+router.get("/", authenticateToken,
+ userController.getAllUsers);
 
 module.exports = router;

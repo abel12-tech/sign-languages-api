@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const bcrypt = require("bcrypt");
 const User = require("../models/userModel");
 
@@ -122,37 +123,25 @@ exports.deleteUser = async (req, res) => {
     });
   }
 };
-
 exports.loginUser = async (req, res) => {
   try {
     const { username, password } = req.body;
-
     const user = await User.findOne({ username });
+    
     if (!user) {
-      return res.status(404).json({
-        status: "error",
-        message: "User not found",
-      });
+      return res.status(404).json({ status: 'error', message: 'User not found' });
     }
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
-      return res.status(401).json({
-        status: "error",
-        message: "Incorrect password",
-      });
+      return res.status(401).json({ status: 'error', message: 'Incorrect password' });
     }
 
-    res.status(200).json({
-      status: "success",
-      data: {
-        user,
-      },
-    });
+    
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    res.status(200).json({ status: 'success', token });
   } catch (err) {
-    res.status(500).json({
-      status: "error",
-      message: err.message,
-    });
+    res.status(500).json({ status: 'error', message: err.message });
   }
 };

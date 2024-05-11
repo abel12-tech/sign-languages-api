@@ -1,5 +1,7 @@
 const express = require("express");
 const categoryController = require("../controllers/categoryController");
+const { authenticateToken } = require("../middleware/authMiddleware");
+
 
 const router = express.Router();
 
@@ -21,23 +23,7 @@ const router = express.Router();
  *           format: uri
  *           description: URL of the image associated with the category
  */
-
-/**
- * @swagger
- * /api/v1/categories:
- *   get:
- *     summary: Retrieve all categories
- *     responses:
- *       '200':
- *         description: A list of categories
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Category'
- */
-router.get("/", categoryController.getAllCategories);
+router.get("/", authenticateToken, categoryController.getAllCategories);
 
 /**
  * @swagger
@@ -58,7 +44,7 @@ router.get("/", categoryController.getAllCategories);
  *             schema:
  *               $ref: '#/components/schemas/Category'
  */
-router.post("/", categoryController.createCategory);
+router.post("/", authenticateToken, categoryController.createCategory);
 
 /**
  * @swagger
@@ -80,7 +66,7 @@ router.post("/", categoryController.createCategory);
  *             schema:
  *               $ref: '#/components/schemas/Category'
  */
-router.get("/:id", categoryController.getCategory);
+router.get("/:id", authenticateToken, categoryController.getCategory);
 
 /**
  * @swagger
@@ -108,7 +94,7 @@ router.get("/:id", categoryController.getCategory);
  *             schema:
  *               $ref: '#/components/schemas/Category'
  */
-router.patch("/:id", categoryController.updateCategory);
+router.patch("/:id", authenticateToken, categoryController.updateCategory);
 
 /**
  * @swagger
@@ -126,7 +112,7 @@ router.patch("/:id", categoryController.updateCategory);
  *       '204':
  *         description: Successfully deleted category
  */
-router.delete("/:id", categoryController.deleteCategory);
+router.delete("/:id", authenticateToken, categoryController.deleteCategory);
 
 /**
  * @swagger
@@ -150,6 +136,7 @@ router.delete("/:id", categoryController.deleteCategory);
  *               items:
  *                 $ref: '#/components/schemas/Sign'
  */
-router.get("/:id/signs", categoryController.getSignsByCategory);
+router.get("/:id/signs",  authenticateToken,
+categoryController.getSignsByCategory);
 
 module.exports = router;
