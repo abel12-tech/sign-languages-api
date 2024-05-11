@@ -179,3 +179,19 @@ exports.rejectSign = async (req, res) => {
     });
   }
 };
+
+exports.getSignAddedByUser = async (req, res) => {
+  try {
+    const signs = await Sign.find({ addedBy: { $ne: "admin" } });
+    res.status(200).json({
+      status: "success",
+      dataLength: signs.length,
+      data: signs,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      message: err.message,
+    });
+  }
+};

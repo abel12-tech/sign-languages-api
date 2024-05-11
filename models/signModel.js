@@ -3,20 +3,20 @@ const mongoose = require('mongoose');
 const signSchema = new mongoose.Schema({
   image: {
     type: String,
-    required: true
+    require:true
   },
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
-    required: true
+    require:true
   },
   meaning: {
     type: String,
-    required: true
+    require:true
   },
   addedBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
   },
   status: {
     type: String,
