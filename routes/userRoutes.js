@@ -31,7 +31,7 @@ const router = express.Router();
  *         description: Successfully registered user
  */
 
-router.post("/register", authenticateToken, userController.registerUser);
+router.post("/register", userController.registerUser);
 
 /**
  * @swagger
