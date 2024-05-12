@@ -116,25 +116,36 @@ exports.getSign = async (req, res) => {
 
 exports.createSign = async (req, res) => {
   try {
-    let signData = req.body;
+    const userId = req.userId; 
 
-    const user = await User.findById(signData.addedBy);
+    
+    req.body.addedBy = userId;
 
+    
+    const user = await User.findById(userId);
+
+    
     if (user.isAdmin) {
-      signData.status = "approved";
+      req.body.status = "approved";
     }
-    const sign = await Sign.create(signData);
+
+    
+    const sign = await Sign.create(req.body);
+
+    
     res.status(201).json({
       status: "success",
       data: sign,
     });
   } catch (err) {
+    
     res.status(400).json({
       status: "error",
       message: err.message,
     });
   }
 };
+
 
 exports.updateSign = async (req, res) => {
   try {

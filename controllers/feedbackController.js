@@ -2,9 +2,12 @@ const Feedback = require("../models/feedbackModel");
 
 exports.createFeedback = async (req, res) => {
   try {
-    let FeedbackData = req.body;
+    const userId = req.userId;
 
-    const feedback = await Feedback.create(FeedbackData);
+    req.body.addedBy = userId;
+
+    const feedback = await Feedback.create(req.body);
+
     res.status(201).json({
       status: "success",
       data: feedback,
