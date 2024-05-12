@@ -9,6 +9,7 @@ const signRouter = require("./routes/signRoutes");
 const categoryRouter = require("./routes/categoryRoutes");
 const userRouter = require("./routes/userRoutes");
 const feedbackRouter = require("./routes/feedbackRoutes");
+const adminRouter = require("./routes/adminRoutes");
 
 const swaggerOptions = {
   swaggerDefinition: {
@@ -43,5 +44,6 @@ app.use("/api/v1/signs", signRouter);
 app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/feedback", feedbackRouter);
+app.use("/api/v1/admin", adminRouter);
 
 module.exports = app;
