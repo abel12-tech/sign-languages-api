@@ -119,18 +119,7 @@ exports.createSign = async (req, res) => {
     let signData = req.body;
 
     const user = await User.findById(signData.addedBy);
-    if (!signData.addedBy) {
-      return res.status(400).json({
-        status: "error",
-        message: "Field 'addedBy' is required",
-      });
-    }
-    if (!user) {
-      return res.status(404).json({
-        status: "error",
-        message: "User not found",
-      });
-    }
+
     if (user.isAdmin) {
       signData.status = "approved";
     }
