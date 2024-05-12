@@ -8,6 +8,7 @@ const swaggerUi = require("swagger-ui-express");
 const signRouter = require("./routes/signRoutes");
 const categoryRouter = require("./routes/categoryRoutes");
 const userRouter = require("./routes/userRoutes");
+const feedbackRouter = require("./routes/feedbackRoutes");
 
 const swaggerOptions = {
   swaggerDefinition: {
@@ -41,5 +42,6 @@ app.use(express.json());
 app.use("/api/v1/signs", signRouter);
 app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/feedback", feedbackRouter);
 
 module.exports = app;
