@@ -60,7 +60,7 @@ exports.getSignsAddedByAdmin = async (req, res) => {
     const adminUserIds = adminUsers.map((user) => user._id);
 
     const signs = await Sign.find({
-      addedBy: { $in: adminUserIds },
+      $or: [{ addedBy: { $in: adminUserIds } }, { status: "approved" }],
     }).populate("addedBy");
 
     res.status(200).json({
@@ -116,36 +116,29 @@ exports.getSign = async (req, res) => {
 
 exports.createSign = async (req, res) => {
   try {
-    const userId = req.userId; 
+    const userId = req.userId;
 
-    
     req.body.addedBy = userId;
 
-    
     const user = await User.findById(userId);
 
-    
     if (user.isAdmin) {
       req.body.status = "approved";
     }
 
-    
     const sign = await Sign.create(req.body);
 
-    
     res.status(201).json({
       status: "success",
       data: sign,
     });
   } catch (err) {
-    
     res.status(400).json({
       status: "error",
       message: err.message,
     });
   }
 };
-
 
 exports.updateSign = async (req, res) => {
   try {
