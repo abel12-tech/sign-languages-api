@@ -44,5 +44,38 @@ router.get("/", authenticateToken, feedbackController.getAllFeedback);
  *               $ref: '#/components/schemas/Feedback'
  */
 router.post("/", authenticateToken, feedbackController.createFeedback);
+/**
+ * @swagger
+ * /api/v1/feedback/{id}:
+ *   put:
+ *     summary: Update a feedback by ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the feedback to update
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: Successfully updated feedback
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Feedback'
+ */
+router
+  .route("/:id")
+  .patch(authenticateToken,feedbackController.updateFeedback)
+  .delete(authenticateToken,feedbackController.deleteFeedback);
 
 module.exports = router;

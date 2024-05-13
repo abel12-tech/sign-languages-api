@@ -37,3 +37,54 @@ exports.getAllFeedback = async (req, res) => {
     });
   }
 };
+exports.updateFeedback = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { message } = req.body;
+
+    const feedback = await Feedback.findById(id);
+    if (!feedback) {
+      return res.status(404).json({
+        status: "error",
+        message: "Feedback not found",
+      });
+    }
+
+    feedback.message = message;
+    await feedback.save();
+
+    res.status(200).json({
+      status: "success",
+      data: feedback,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "error",
+      message: err.message,
+    });
+  }
+};
+
+exports.deleteFeedback = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const feedback = await Feedback.findByIdAndDelete(id);
+    if (!feedback) {
+      return res.status(404).json({
+        status: "error",
+        message: "Feedback not found",
+      });
+    }
+
+    res.status(204).json({
+      status: "success",
+      data: null,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      message: err.message,
+    });
+  }
+};
